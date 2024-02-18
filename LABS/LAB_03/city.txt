@@ -1,0 +1,2 @@
+cityA,7500,egg
+cityB,4832,chai
