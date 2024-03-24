@@ -46,21 +46,26 @@ def successors(state):
         if is_valid_state(new_state):
             yield new_state # yeild = returns list of values
 
-def bfs():
-    start_state = (3, 3, 1)
-    goal_state = (0, 0, 0)
-    queue = deque([(start_state, [])]) # initializes a queue with the start state and an empty path
-    visited = set()
 
-    while queue:
-        state, path = queue.popleft()
-        if state == goal_state:
-            return path
-        visited.add(state)
-        for successor_state in successors(state):
-            if successor_state not in visited:
-                queue.append((successor_state, path + [successor_state]))
 
-solution = bfs()
-for i, state in enumerate(solution):
-    print(f"Step {i+1}: {state}")
+def dfs(state, path, visited):
+    if state == (0, 0, 0):
+        return path
+    
+    visited.add(state)
+    
+    for successor_state in successors(state):
+        if successor_state not in visited:
+            new_path = path + [successor_state]
+            result = dfs(successor_state, new_path, visited)
+            if result:
+                return result
+    
+    return None
+
+solution = dfs((3, 3, 1), [(3, 3, 1)], set())
+if solution:
+    for i, state in enumerate(solution):
+        print(f"Step {i+1}: {state}")
+else:
+    print("No solution found.")
